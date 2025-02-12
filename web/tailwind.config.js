@@ -40,6 +40,7 @@ export default {
                 inter: ["Inter", "sans-serif"],
             },
             screens: {
+                1366: "1366px",
                 1920: "1920px",
                 "2k": "2560px",
                 "4k": "3840px",

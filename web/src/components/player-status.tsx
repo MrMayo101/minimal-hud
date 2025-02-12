@@ -40,7 +40,7 @@ const PlayerStatus = () => {
           top: minimap.top + "px",
           left: minimap.left + "px",
           width: minimap.width * 2 + "px",
-          height: minimap.height + "px",
+          height: minimap.height * 3.7 + "px",
         }}
       >
         <div
