@@ -53,6 +53,7 @@ function VehicleStatusThread:start()
             local highGear = GetVehicleHighGear(vehicle)
             local currentGear = GetVehicleDashboardCurrentGear()
             local newGears = highGear
+            local retval, lightsOn, highbeamsOn = GetVehicleLightsState(vehicle)
 
             -- Fix for vehicles that only have 1 gear
             if highGear == 1 then
@@ -71,6 +72,10 @@ function VehicleStatusThread:start()
                 gearString = "1"
             elseif currentGear > 1 then
                 gearString = tostring(math.floor(currentGear - 1))
+            end
+            -- Fix for vehicles that only have 1 gear
+            if highGear == 1 then
+                gearString = ""
             end
 
             -- Handle MPH and KPH
@@ -91,6 +96,9 @@ function VehicleStatusThread:start()
                 rpm = convertRpmToPercentage(GetVehicleCurrentRpm(vehicle))
             end
 
+            -- Vehicle headlights
+            local headlights = (lightsOn and highbeamsOn) and 100 or (lightsOn or highbeamsOn) and 50 or 0
+
             interface:message("state::vehicle::set", {
                 speedUnit = config.speedUnit,
                 speed = speed,
@@ -101,6 +109,7 @@ function VehicleStatusThread:start()
                 currentGear = gearString,
                 fuel = fuel,
                 nos = noslevel,
+                headlights = headlights
             })
 
             Wait(100)
